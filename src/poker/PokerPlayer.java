@@ -1,4 +1,5 @@
 package poker;
+import bank.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,10 +9,12 @@ import cardGame.Player;
 public class PokerPlayer extends Player 
 {
 	private int[] record;
+	private Account account;
 	
-	public PokerPlayer(int number, ArrayList<Card> hand)
+	public PokerPlayer(int number, ArrayList<Card> hand, Account account)
 	{
 		super(number, hand);
+		this.account = account;
 		record = new int[13];
 		initize();
 	}
@@ -100,7 +103,7 @@ public class PokerPlayer extends Player
 				start = true;
 				starter=i;
 			}
-			if(record[0]==1)
+			if(i==0&&record[0]==1)
 			{
 				isAce=true;
 				start=false;
@@ -147,5 +150,15 @@ public class PokerPlayer extends Player
 			return "FLUSH";
 		else 
 			return "HIGH_CARD";
+	}
+	
+	public void updateAccount(double amount,double payout)
+	{
+		account.changeBalance(amount,payout);
+	}
+	
+	public double getAccountBalance()
+	{
+		return account.getBalance();
 	}
 }

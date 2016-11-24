@@ -1,14 +1,17 @@
 package blackjack;
-
+import bank.*;
 import java.util.ArrayList;
 import cardGame.*;
 import javax.swing.JOptionPane;
 
 public class BlackJackPlayer extends Player
 {
-	public BlackJackPlayer (int number, ArrayList<Card> hand) 
+	private Account account;
+	
+	public BlackJackPlayer (int number, ArrayList<Card> hand, Account account) 
 	{
 		super(number, hand);
+		this.account = account;
 	}
 	
 	private int playerSum = 0, dealerSum = 0, playerHaveAce = 0, dealerHaveAce = 0, result = 0;
@@ -196,5 +199,15 @@ public class BlackJackPlayer extends Player
 		else if (playerSum > 21)
 			return "BUSTED";
 		else return "NORMAL";
+	}
+	
+	public void updateAccount(double amount,double payout)
+	{
+		account.changeBalance(amount,payout);
+	}
+	
+	public double getAccountBalance()
+	{
+		return account.getBalance();
 	}
 }

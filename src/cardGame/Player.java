@@ -53,7 +53,12 @@ public class Player
 			hand.set(j,temp);
 		}
 	}
-
+	
+	public String determineHand()
+	{
+		return "";
+	}
+	
 	private ArrayList<Card> hand;
 	private int number;
 }
