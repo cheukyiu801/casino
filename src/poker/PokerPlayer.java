@@ -91,7 +91,7 @@ public class PokerPlayer extends Player implements Play
 	public boolean isFlush()
 	{
 		ArrayList<Card> hand = super.getHand();
-		for(int i=0; i<hand.size(); i++)
+		for(int i=0; i<hand.size()-1; i++)
 		{
 			if(hand.get(i).getSuit()!=hand.get(i+1).getSuit())
 				return false;
@@ -100,33 +100,33 @@ public class PokerPlayer extends Player implements Play
 	}
 	
 	public boolean isStraight()
-	{
-		int starter=0;
+	{	
 		boolean start = false;
 		boolean isAce = false;
+		int counter=0;
+		int starter=0;
 		for(int i=0; i<record.length; i++)
 		{
 			if(record[i]==1)
 			{
-				start = true;
-				starter=i;
+				if(i==0)
+					isAce=true;
+				else if(isAce&&i==9)
+					start = true;
+				else
+				{
+					start=true;
+					starter=i;
+				}
+				counter++;
 			}
-			if(i==0&&record[0]==1)
-			{
-				isAce=true;
-				start=false;
-			}
-			if(isAce&&i==9)
-				start = true;
-			if(start)
-			{
-				if(record[i]!=0)
-					return false;
-			}
-			if(starter==(i-4))
+			else if(record[i]>1)
+				return false;
+			
+			if(starter==(i-4)&&start&&counter==5)
 				return true;
 		}
-			return false;
+		return false;
 	}
 	
 	public boolean isStraightFlush()
