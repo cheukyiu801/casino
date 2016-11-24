@@ -132,10 +132,11 @@ public class Main
 								+ insuranceMsg
 								+ "\nPayout: "+payout
 								+ "\nNew Amount is: "+blackJack.getAccountBalance());
+						
+						Object[] options = {"Yes","No"};
+						int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
+						loop = n==0;
 					}
-					Object[] options = {"Yes","No"};
-					int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
-					loop = n==0;
 				}
 				else if(menu==3)
 				{
