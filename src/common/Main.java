@@ -144,7 +144,6 @@ public class Main
 					while(loop)
 					{
 						int roundNum = 0;
-						int betAmount=0;
 						
 						String _betAmount = JOptionPane.showInputDialog("Enter the amount you want to bet");
 						bet=Integer.parseInt(_betAmount);
@@ -160,10 +159,10 @@ public class Main
 							String _specific = JOptionPane.showInputDialog("Please enter the specific number");
 							int specific = Integer.parseInt(_specific);
 							
-							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,specific, betAmount));
+							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,specific, bet));
 						}
 						else{
-							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,0, betAmount));
+							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,0, bet));
 						}
 						
 						Object[] options = {"Yes","No"};
