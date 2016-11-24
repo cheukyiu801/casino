@@ -1,7 +1,8 @@
 package cardGame;
 import java.util.ArrayList;
+import common.*;
 
-public class Player
+public class Player implements Play
 {
 	public Player(int number, ArrayList<Card> hand)
 	{
@@ -57,6 +58,25 @@ public class Player
 	public String determineHand()
 	{
 		return "";
+	}
+	
+	public String getEndResult()
+	{
+		String handCard="";
+		for(int i=1; i<=hand.size(); i++)
+			handCard+= i+")" + "   " + hand.get(i-1).toString()+ "\n";
+		return handCard;
+	}
+	
+	public void renewGame()
+	{
+		removeHand();
+	}
+	
+	public void removeHand()
+	{
+		while(hand.size()!=0)
+			hand.remove(0);
 	}
 	
 	private ArrayList<Card> hand;

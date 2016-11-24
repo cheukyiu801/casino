@@ -15,7 +15,13 @@ public enum Payout
 	NORMAL(1),
 	NATURAL_BLACKJACK(1.5),
 	FIVE_CARD_TRICK(2),
-	BUSTED(0);
+	BUSTED(0),
+	
+	BIG(1),
+	SMALL(1),
+	DOUBLES(8),
+	ALL_SAME(24),
+	ALL_SAME_SPECIFIC(150);
 	
 	private final double value;
 

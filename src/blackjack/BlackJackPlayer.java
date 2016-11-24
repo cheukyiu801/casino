@@ -1,16 +1,18 @@
 package blackjack;
 import bank.*;
+import common.*;
 import java.util.ArrayList;
 import cardGame.*;
 import javax.swing.JOptionPane;
 
-public class BlackJackPlayer extends Player
+public class BlackJackPlayer extends Player implements Play
 {
 	private Account account;
 	
 	public BlackJackPlayer (int number, ArrayList<Card> hand, Account account) 
 	{
 		super(number, hand);
+		super.removeHand();
 		this.account = account;
 	}
 	
@@ -132,7 +134,14 @@ public class BlackJackPlayer extends Player
 				+ "Enter 8 to bet insurance");
 	}
 	
-	public void play() {
+	public void renewGame()
+	{
+		super.renewGame();
+		dealer.removeHand();
+	}
+	
+	public void play() 
+	{
 		dealCard(playerHand);
 		dealCard(dealerHand);
 		playerSum = countSum(playerHand);

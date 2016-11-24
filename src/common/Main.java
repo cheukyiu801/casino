@@ -21,7 +21,6 @@ public class Main
 
 		while(!done)
 		{
-			String handCard="";
 			String result="Your have ";
 			Payout payoutcon; 
 			double payout = 0;
@@ -30,31 +29,25 @@ public class Main
 			
 			String choice=JOptionPane.showInputDialog("Enter the number corresponding to what you would like to do. \n1. Play Poker \n2. Play BlackJack \n3. Play Sic Bo \n4. Quit");
 			int menu=Integer.parseInt(choice);
-			if(menu==3)
+			if(menu==4)
 				done=true;
 			else 
 			{	
 				if(menu==1)
 				{
+					Deck game=Deck.getInstance();
+					ArrayList<Card> hand=new ArrayList<Card>();
+					PokerPlayer one=new PokerPlayer(5, hand, a);
 					while(loop)
 					{
-						handCard="";
 						result="Your have ";
 						String betTemp=JOptionPane.showInputDialog("Enter the amount you want to bet");
 						bet=Integer.parseInt(betTemp);
-						
-						Deck game=Deck.getInstance();
-						ArrayList<Card> hand=new ArrayList<Card>();
-						PokerPlayer one=new PokerPlayer(5, hand, a);
-						boolean move = false;
+						one.renewGame();
 						for(int i=hand.size(); i<one.getNumOfCards(); i++)
 							hand.add(game.deal());
 						one.sort();
-	
-						for(int i=1; i<=hand.size(); i++)
-							handCard+= i+")" + "   " + hand.get(i-1).toString()+ "\n";
-	
-						JOptionPane.showMessageDialog(null, "This is your hand of cards. \n"+handCard);
+						JOptionPane.showMessageDialog(null, "This is your hand of cards. \n"+one.getEndResult());
 	
 						String outcome = one.determineHand();
 						result+=outcome;
@@ -62,7 +55,6 @@ public class Main
 						payout = payoutcon.getPayout();
 						
 						one.updateAccount(bet, payout);
-	
 						JOptionPane.showMessageDialog(null, result+"\n"+"Your new balance is "+one.getAccountBalance());
 						Object[] options = {"Yes","No"};
 						int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
@@ -71,20 +63,18 @@ public class Main
 				}
 				else if(menu==2)
 				{			
+					ArrayList<Card> playerHand = new ArrayList<Card>();
+					BlackJackPlayer blackJack = new BlackJackPlayer(2, playerHand, a);
 					while(loop)
 					{
-						handCard="";
+						blackJack.renewGame();
+						
 						result="Your have ";
-					
 						String betTemp=JOptionPane.showInputDialog("Enter the amount you want to bet");
 						bet=Integer.parseInt(betTemp);
-						
 						String playerHandCard="", dealerHandCard = "";
 						int playerSum = 0, dealerSum = 0;
 						int bjResult = 0;
-						ArrayList<Card> playerHand = new ArrayList<Card>();
-	
-						BlackJackPlayer blackJack = new BlackJackPlayer(2, playerHand, a);
 						blackJack.play();
 	
 						playerHandCard = blackJack.getPlayerCardInfo();
@@ -97,20 +87,33 @@ public class Main
 						boolean insurance = blackJack.getInsurance();
 						String insuranceMsg = "";
 	
-						if (outcome != "NORMAL") {
+						if (outcome != "NORMAL") 
+						{
 							result+=outcome;
 							payoutcon = Payout.valueOf(outcome);
 							payout = payoutcon.getPayout();
-						} else {
+						} 
+						else 
+						{
 							bjResult = blackJack.getResult();
 	
 							if (bjResult == -1)
+							{
 								result = "You lose!";
+								payout=0;
+							}
 							else if (bjResult == 1)
+							{
 								result = "You win!";
-							else result = "Draw!";
+								payoutcon = Payout.valueOf(outcome);
+								payout = payoutcon.getPayout();
+							}
+							else 
+								{
+									result = "Draw!";
+									payout=0;
+								}
 						}
-	
 						if (insurance)
 						{
 							insuranceMsg += "\n\n[Insurance bet]";
@@ -140,7 +143,6 @@ public class Main
 					
 					while(loop)
 					{
-						boolean endGame;
 						int roundNum = 0;
 						int betAmount=0;
 						
@@ -158,10 +160,10 @@ public class Main
 							String _specific = JOptionPane.showInputDialog("Please enter the specific number");
 							int specific = Integer.parseInt(_specific);
 							
-							JOptionPane.showMessageDialog(null, Game.getResult(player, playerBets,specific, betAmount));
+							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,specific, betAmount));
 						}
 						else{
-							JOptionPane.showMessageDialog(null, Game.getResult(player, playerBets,0, betAmount));
+							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,0, betAmount));
 						}
 						
 						Object[] options = {"Yes","No"};

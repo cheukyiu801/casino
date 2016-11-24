@@ -1,12 +1,13 @@
 package poker;
 import bank.*;
+import common.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import cardGame.Card;
 import cardGame.Player;
 
-public class PokerPlayer extends Player 
+public class PokerPlayer extends Player implements Play
 {
 	private int[] record;
 	private Account account;
@@ -17,6 +18,21 @@ public class PokerPlayer extends Player
 		this.account = account;
 		record = new int[13];
 		initize();
+	}
+	
+	public void renewGame()
+	{
+		super.removeHand();
+		reset();
+		initize();
+	}
+	
+	public void reset()
+	{
+		for(int i=0; i<record.length; i++)
+		{
+			record[i]=0;
+		}
 	}
 	
 	public void initize()
