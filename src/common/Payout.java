@@ -10,14 +10,19 @@ public enum Payout
 	THREE_OF_A_KIND(3),
 	TWO_PAIR(2),
 	ONE_PAIR(1),
-	HIGH_CARD(0);
+	HIGH_CARD(0),
 	
-	private final int value;
+	NORMAL(1),
+	NATURAL_BLACKJACK(1.5),
+	FIVE_CARD_TRICK(2),
+	BUSTED(0);
+	
+	private final double value;
 
-    Payout(final int newValue) 
+    Payout(final double newValue) 
     {
         value = newValue;
     }
 	
-	public int getPayout() { return value; }
+	public double getPayout() { return value; }
 }

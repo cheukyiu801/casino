@@ -100,6 +100,8 @@ public class BlackJackPlayer extends Player
 	private int compare(int player, int dealer) {
 		if (player > dealer)
 			return 1;
+		else if (player <= 21 && dealer > 21) //dealer busting
+			return 1;
 		else if (player < dealer)
 			return -1;
 		else return 0;
@@ -156,5 +158,16 @@ public class BlackJackPlayer extends Player
 				break;
 			}				
 		}
+	}
+	
+	public String determineHand()
+	{
+		if (playerSum == 21)
+			return "NATURAL_BLACKJACK";
+		else if(playerSum <= 21 && playerHand.size() == 5)
+			return "FIVE_CARD_TRICK";
+		else if (playerSum > 21)
+			return "BUSTED";
+		else return "NORMAL";
 	}
 }

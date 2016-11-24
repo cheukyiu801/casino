@@ -19,7 +19,7 @@ public class Main
 			String handCard="";
 			String result="Your have ";
 			Payout payoutcon; 
-			int payout = 0;
+			double payout = 0;
 
 			String choice=JOptionPane.showInputDialog("Enter the number corresponding to what you would like to do. \n1. Play Poker \n2. Play BlackJack \n3. Quit");
 			int menu=Integer.parseInt(choice);
@@ -62,23 +62,31 @@ public class Main
 				playerSum = blackJack.getPlayerSum();
 				dealerSum = blackJack.getDealerSum();
 				
-				bjResult = blackJack.getResult();
-
-				if (playerSum>21) {
-					result = "Busting!";
+				//New parts
+				String outcome = blackJack.determineHand();
+				
+				if (outcome != "NORMAL") {
+					result+=outcome;
+					payoutcon = Payout.valueOf(outcome);
+					payout = payoutcon.getPayout();
+				} else {
+					bjResult = blackJack.getResult();
+					
+					if (bjResult == -1)
+						result = "You lose!";
+					else if (bjResult == 1)
+						result = "You win!";
+					else result = "Draw!";
 				}
-				else if (bjResult == -1)
-					result = "You lose!";
-				else if (bjResult == 1)
-					result += "You win!";
-				else result += "Draw!";
-			
+				
 				//Show result
 				JOptionPane.showMessageDialog(null, result
 						+ "\n\nYour cards: \n" + playerHandCard
 						+ "Total: " + playerSum
 						+ "\n\nDealer's cards: \n" + dealerHandCard
-						+ "Total: " + dealerSum);
+						+ "Total: " + dealerSum
+						+ "\n\nPayout: "+payout);
+				//
 			}
 		}
 	}
