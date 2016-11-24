@@ -30,10 +30,28 @@ public class Main
 				Deck game=Deck.getInstance();
 				ArrayList<Card> hand=new ArrayList<Card>();
 				PokerPlayer one=new PokerPlayer(5, hand);
+				boolean move = false;
 				for(int i=hand.size(); i<one.getNumOfCards(); i++)
 					hand.add(game.deal());
 				one.sort();
 
+				while((hand.size()>0)&&!move)
+				{
+					handCard="";
+					for(int i=1; i<=hand.size(); i++)
+						handCard+= i+")" + "   " + hand.get(i-1).toString()+ "\n";
+					String reMove=JOptionPane.showInputDialog("Enter the number corresponding to the card you would like to get rid of or enter 6 if you do not want to remove any \n"+handCard+"6)   done");
+					int getRid=Integer.parseInt(reMove);
+					if(getRid==6)
+						move=true;
+					else
+						hand.remove(getRid-1);
+				}
+
+				for(int i=hand.size()+1; i<=one.getNumOfCards(); i++)
+					hand.add(game.deal());
+				one.sort();
+				handCard="";
 				for(int i=1; i<=hand.size(); i++)
 					handCard+= i+")" + "   " + hand.get(i-1).toString()+ "\n";
 				

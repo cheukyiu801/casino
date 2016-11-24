@@ -90,29 +90,29 @@ public class PokerPlayer extends Player
 	public boolean isStraight()
 	{
 		System.out.println(Arrays.toString(record));
-		int counter = 0;
+		int starter=0;
 		boolean start = false;
 		boolean isAce = false;
 		for(int i=0; i<record.length; i++)
 		{
 			if(record[i]==1)
+			{
 				start = true;
+				starter=i;
+			}
 			if(record[0]==1)
 			{
 				isAce=true;
 				start=false;
-				counter++;
 			}
 			if(isAce&&i==9)
 				start = true;
 			if(start)
 			{
-				if (record[i]==1)
-					counter++;
-				else
+				if(record[i]!=0)
 					return false;
 			}
-			if(counter==5)
+			if(starter==(i-4))
 				return true;
 		}
 			return false;
@@ -126,13 +126,7 @@ public class PokerPlayer extends Player
 	public String determineHand()
 	{
 		initize();
-		if(isStraightFlush())
-			return "STRAIGHT_FLUSH";
-		else if(isStraight())
-			return "STRAIGHT";
-		else if(isFlush())
-			return "FLUSH";
-		else if(isFourOfAKind())
+		if(isFourOfAKind())
 			return "FOUR_OF_A_KIND";
 		else if(isFullHouse())
 			return "FULL_HOUSE";
@@ -145,6 +139,12 @@ public class PokerPlayer extends Player
 			else
 				return "ONE_PAIR";
 		}
+		else if(isStraightFlush())
+			return "STRAIGHT_FLUSH";
+		else if(isStraight())
+			return "STRAIGHT";
+		else if(isFlush())
+			return "FLUSH";
 		else 
 			return "HIGH_CARD";
 	}
