@@ -2,7 +2,6 @@ package poker;
 import bank.*;
 import common.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import cardGame.Card;
 import cardGame.Player;
@@ -48,25 +47,29 @@ public class PokerPlayer extends Player implements Play
 		}
 	}
 	
-	public boolean isFourOfAKind()
+	public boolean findNumber(int n)
 	{
-		System.out.println(Arrays.toString(record));
 		for(int i=0; i<record.length; i++)
 		{
-			if(record[i]==4)
+			if(record[i]==n)
 				return true;
 		}
 		return false;
 	}
 	
+	public boolean isFourOfAKind()
+	{
+		return findNumber(4);
+	}
+	
+	public boolean isThreeOfAKind()
+	{
+		return findNumber(3);
+	}
+	
 	public boolean hasPair()
 	{
-		for(int i=0; i<record.length; i++)
-		{
-			if(record[i]==2)
-				return true;
-		}
-		return false;
+		return findNumber(2);
 	}
 	
 	public int calPair()
@@ -78,16 +81,6 @@ public class PokerPlayer extends Player implements Play
 				counter++;
 		}
 		return counter;
-	}
-	
-	public boolean isThreeOfAKind()
-	{
-		for(int i=0; i<record.length; i++)
-		{
-			if(record[i]==3)
-				return true;
-		}
-		return false;
 	}
 	
 	public boolean isFullHouse()
@@ -108,7 +101,6 @@ public class PokerPlayer extends Player implements Play
 	
 	public boolean isStraight()
 	{
-		System.out.println(Arrays.toString(record));
 		int starter=0;
 		boolean start = false;
 		boolean isAce = false;

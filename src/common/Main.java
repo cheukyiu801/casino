@@ -56,9 +56,7 @@ public class Main
 						
 						one.updateAccount(bet, payout);
 						JOptionPane.showMessageDialog(null, result+"\n"+"Your new balance is "+one.getAccountBalance());
-						Object[] options = {"Yes","No"};
-						int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
-						loop = n==0;
+						loop = chooseContinue();
 					}
 				}
 				else if(menu==2)
@@ -75,6 +73,7 @@ public class Main
 						String playerHandCard="", dealerHandCard = "";
 						int playerSum = 0, dealerSum = 0;
 						int bjResult = 0;
+						boolean insurance = false;
 						blackJack.play();
 	
 						playerHandCard = blackJack.getPlayerCardInfo();
@@ -84,7 +83,7 @@ public class Main
 						dealerSum = blackJack.getDealerSum();
 	
 						String outcome = blackJack.determineHand();
-						boolean insurance = blackJack.getInsurance();
+						insurance = blackJack.getInsurance();
 						String insuranceMsg = "";
 	
 						if (outcome != "NORMAL") 
@@ -133,9 +132,7 @@ public class Main
 								+ "\nPayout: "+payout
 								+ "\nNew Amount is: "+blackJack.getAccountBalance());
 						
-						Object[] options = {"Yes","No"};
-						int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
-						loop = n==0;
+						loop = chooseContinue();
 					}
 				}
 				else if(menu==3)
@@ -155,23 +152,28 @@ public class Main
 								+ "\n 1=Big (1:1) \n 2=Small (1:1) \n 3=Specific Doubles (1:8) \n 4=Specific 'Triples'/Alls (1:150) \n 5=Any Triple/All 'Alls' (1:24)");
 						
 						int playerBets = Integer.parseInt(_playerBets);
-						
-						if(playerBets==3||playerBets==4){
+						BetsAndSpecific betsAndSpecific;
+						if(playerBets==3||playerBets==4)
+						{
 							String _specific = JOptionPane.showInputDialog("Please enter the specific number");
 							int specific = Integer.parseInt(_specific);
-							
-							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,specific, bet));
+							betsAndSpecific = new BetsAndSpecific(playerBets,specific);
 						}
 						else{
-							JOptionPane.showMessageDialog(null, Game.getEndResult(player, playerBets,0, bet));
+							betsAndSpecific = new BetsAndSpecific(playerBets,0);
 						}
-						
-						Object[] options = {"Yes","No"};
-						int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
-						loop = n==0;
+						JOptionPane.showMessageDialog(null, Game.getEndResult(player, betsAndSpecific, bet));
+						loop = chooseContinue();
 					}
 				}
 			}
 		}
+	}
+
+	private static boolean chooseContinue() 
+	{
+		Object[] options = {"Yes","No"};
+		int n = JOptionPane.showOptionDialog(null,"Continue?", null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION,  null, options, options[1]);
+		return n==0;
 	}
 }
