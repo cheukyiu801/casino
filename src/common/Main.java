@@ -80,8 +80,9 @@ public class Main
 				playerSum = blackJack.getPlayerSum();
 				dealerSum = blackJack.getDealerSum();
 				
-				//New parts
 				String outcome = blackJack.determineHand();
+				boolean insurance = blackJack.getInsurance();
+				String insuranceMsg = "";
 				
 				if (outcome != "NORMAL") {
 					result+=outcome;
@@ -97,14 +98,21 @@ public class Main
 					else result = "Draw!";
 				}
 				
+				if (insurance){
+					insuranceMsg += "\n\n[Insurance bet]";
+					if (dealerSum == 21)
+						payout += 0.5;
+					else payout -= 0.5;
+				}
+				
 				//Show result
 				JOptionPane.showMessageDialog(null, result
 						+ "\n\nYour cards: \n" + playerHandCard
 						+ "Total: " + playerSum
 						+ "\n\nDealer's cards: \n" + dealerHandCard
 						+ "Total: " + dealerSum
-						+ "\n\nPayout: "+payout);
-				//
+						+ insuranceMsg
+						+ "\nPayout: "+payout);
 			}
 		}
 	}

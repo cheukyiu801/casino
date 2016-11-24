@@ -16,6 +16,7 @@ public class BlackJackPlayer extends Player
 	private ArrayList<Card> playerHand = super.getHand();
 	private ArrayList<Card> dealerHand = new ArrayList<>();
 	private int cardIni = super.getNumOfCards();
+	private boolean insurance = false;
 
 	Deck game = Deck.getInstance();	
 		
@@ -37,6 +38,10 @@ public class BlackJackPlayer extends Player
 	
 	public int getResult() {
 		return result;
+	}
+	
+	public boolean getInsurance() {
+		return insurance;
 	}
 	
 	private String getCardInfo(ArrayList<Card> hand)
@@ -107,6 +112,23 @@ public class BlackJackPlayer extends Player
 		else return 0;
 	}
 	
+	private String msgNormal() {
+		return JOptionPane.showInputDialog("These are the cards in hand\n"
+				+ handCard + "Total: " + playerSum + "\n\n"
+				+ showDealerInfo() + "\n\n"
+				+ "Enter 0 to hit or \n"
+				+ "Enter 6 to stand");
+	}
+	
+	private String msgInsurance() {
+		return JOptionPane.showInputDialog("These are the cards in hand\n"
+				+ handCard + "Total: " + playerSum + "\n\n"
+				+ showDealerInfo() + "\n\n"
+				+ "Enter 0 to hit or \n"
+				+ "Enter 6 to stand or \n"
+				+ "Enter 8 to bet insurance");
+	}
+	
 	public void play() {
 		dealCard(playerHand);
 		dealCard(dealerHand);
@@ -119,13 +141,18 @@ public class BlackJackPlayer extends Player
 		{
 			handCard = getCardInfo(playerHand);
 			
-			String msg = JOptionPane.showInputDialog("These are the cards in hand\n"
-					+ handCard + "Total: " + playerSum + "\n\n"
-					+ showDealerInfo() + "\n\n"
-					+ "Enter 0 to hit or \n"
-					+ "Enter 6 to stand");
+			String msg = "";
+			
+			if (dealerHand.get(0).getValue() == 0 && (!insurance)) //Dealer's first card = "A" & player have not bet insurance
+				msg = msgInsurance();
+			else msg = msgNormal();		
 			
 			int input = Integer.parseInt(msg);
+
+			//Ensure player bet insurance only if dealer's first card = "A"
+			if (input == 8 && dealerHand.get(0).getValue() == 0 && (!insurance))
+				insurance = true;
+			
 			if (input == 0) {
 				
 				//check dealer need add card or not
