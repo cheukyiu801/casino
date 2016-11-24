@@ -2,6 +2,7 @@ package poker;
 import bank.*;
 import common.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cardGame.Card;
 import cardGame.Player;
@@ -47,29 +48,25 @@ public class PokerPlayer extends Player implements Play
 		}
 	}
 	
-	public boolean findNumber(int n)
+	public boolean isFourOfAKind()
 	{
+		System.out.println(Arrays.toString(record));
 		for(int i=0; i<record.length; i++)
 		{
-			if(record[i]==n)
+			if(record[i]==4)
 				return true;
 		}
 		return false;
 	}
 	
-	public boolean isFourOfAKind()
-	{
-		return findNumber(4);
-	}
-	
-	public boolean isThreeOfAKind()
-	{
-		return findNumber(3);
-	}
-	
 	public boolean hasPair()
 	{
-		return findNumber(2);
+		for(int i=0; i<record.length; i++)
+		{
+			if(record[i]==2)
+				return true;
+		}
+		return false;
 	}
 	
 	public int calPair()
@@ -83,6 +80,16 @@ public class PokerPlayer extends Player implements Play
 		return counter;
 	}
 	
+	public boolean isThreeOfAKind()
+	{
+		for(int i=0; i<record.length; i++)
+		{
+			if(record[i]==3)
+				return true;
+		}
+		return false;
+	}
+	
 	public boolean isFullHouse()
 	{
 		return hasPair()&&isThreeOfAKind();
@@ -91,7 +98,7 @@ public class PokerPlayer extends Player implements Play
 	public boolean isFlush()
 	{
 		ArrayList<Card> hand = super.getHand();
-		for(int i=0; i<hand.size()-1; i++)
+		for(int i=0; i<hand.size(); i++)
 		{
 			if(hand.get(i).getSuit()!=hand.get(i+1).getSuit())
 				return false;
@@ -100,33 +107,34 @@ public class PokerPlayer extends Player implements Play
 	}
 	
 	public boolean isStraight()
-	{	
+	{
+		System.out.println(Arrays.toString(record));
+		int starter=0;
 		boolean start = false;
 		boolean isAce = false;
-		int counter=0;
-		int starter=0;
 		for(int i=0; i<record.length; i++)
 		{
 			if(record[i]==1)
 			{
-				if(i==0)
-					isAce=true;
-				else if(isAce&&i==9)
-					start = true;
-				else
-				{
-					start=true;
-					starter=i;
-				}
-				counter++;
+				start = true;
+				starter=i;
 			}
-			else if(record[i]>1)
-				return false;
-			
-			if(starter==(i-4)&&start&&counter==5)
+			if(i==0&&record[0]==1)
+			{
+				isAce=true;
+				start=false;
+			}
+			if(isAce&&i==9)
+				start = true;
+			if(start)
+			{
+				if(record[i]!=0)
+					return false;
+			}
+			if(starter==(i-4))
 				return true;
 		}
-		return false;
+			return false;
 	}
 	
 	public boolean isStraightFlush()
