@@ -21,7 +21,8 @@ public enum Payout
 	SMALL(1),
 	DOUBLES(8),
 	ALL_SAME(24),
-	ALL_SAME_SPECIFIC(150);
+	ALL_SAME_SPECIFIC(150),
+	LOST(0);
 	
 	private final double value;
 

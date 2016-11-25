@@ -1,5 +1,6 @@
 package common;
 import javax.swing.JOptionPane;
+
 import common.*;
 import dicePlayer.*;
 import cardGame.Card;
@@ -8,6 +9,7 @@ import poker.PokerPlayer;
 import blackjack.*;
 
 import java.util.ArrayList;
+
 import bank.*;
 
 public class Main
@@ -141,6 +143,8 @@ public class Main
 				else if(menu==3)
 				{
 					DicePlayer player = new DicePlayer(a);
+					Game game = new Game();
+					Dice dice = new Dice();
 					
 					while(loop)
 					{
@@ -159,7 +163,7 @@ public class Main
 						{
 							betsAndSpecific = new BetsAndSpecific(playerBets,0);
 						}
-						JOptionPane.showMessageDialog(null, Game.getEndResult(player, betsAndSpecific, bet));
+						JOptionPane.showMessageDialog(null, game.getEndResult(dice, player, betsAndSpecific, bet));
 						loop = UserInput.chooseContinue();
 					}
 				}
